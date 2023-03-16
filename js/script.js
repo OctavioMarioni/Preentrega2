@@ -18,31 +18,43 @@ const juegos = [
     new juego("Signalis", 2019, "horror", 2000, 5)
 ];
 
-console.log(juegos);
+let criterio = prompt("Elige el criterio deseado: \n1 -Título (A a Z) \n2 -Título (Z a A) \n3 -Ordenar por peso en MB \n4 -Ordenar por género \n5 -Ordenar por año de salida");
 
-let continuar = true;
+// Llama a la función ordernar para ordenar el arreglo juegos
+let juegosOrdenados = ordernar(criterio, juegos);
 
- while(continuar);
+// Muestra los juegos ordenados en la consola
+console.log(juegosOrdenados);
 
-    let criterio = prompt('Elegí el criterio deseado:\n1 - Título (A a Z) \n2 - Título (Z a A)\n3 - De mas a menos peso \n4 - Fecha de publicación (Más viejo a más nuevo)');
+// Muestra los juegos ordenados en una alerta
+alert(stringResultados(juegosOrdenados));
 
-function ordenar(criterio, array) {
-    let arrayOrdenado = array.slice(0);
+function ordernar(criterio, array) {
 
+    let juegosOrdenados = array.slice(0);
 
     switch (criterio) {
         case '1':
-            let nombreAscendente = arrayOrdenado.sort((a,b)=>a.titulo.localeCompare(b.titulo));
-            return nombreAscendente;
+            return juegosOrdenados.sort((a, b) => a.titulo.localeCompare(b.titulo));
         case '2':
-            let nombreDescendente = arrayOrdenado.sort((a, b) => b.titulo.localeCompare(a.titulo));
-            return nombreDescendente;
+            return juegosOrdenados.sort((a, b) => b.titulo.localeCompare(a.titulo));
         case '3':
-            return arrayOrdenado.sort((a, b) => b.peso - a.peso);
+            return juegosOrdenados.sort((a, b) => a.peso - b.peso);
         case '4':
-            return arrayOrdenado.sort((a, b) => a.anio - b.anio);
+            let generoElegido = prompt("Escribe el género que quieres buscar:");
+            return juegosOrdenados.filter(juego => juego.genero === generoElegido);
+        case '5':
+            return juegosOrdenados.sort((a, b) => a.anio - b.anio);
         default:
-            alert('No es un criterio válido');
+            alert("El numero ingresado no es correcto");
             break;
     }
+}
+
+function stringResultados(array) {
+    let resultado = '';
+    array.forEach(elemento => {
+        resultado += 'Título: ' + elemento.titulo + '\nAño de publicación: ' + elemento.anio + '\nGénero: ' + elemento.genero + '\nPeso: ' + elemento.peso + ' MB\n\n';
+    });
+    return resultado;
 }
